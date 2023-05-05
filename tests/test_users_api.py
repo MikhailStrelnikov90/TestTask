@@ -57,7 +57,7 @@ class TestUsersAPI:
             users_api.should_be_valid_response_status_and_body_from_request_delete_user(delete_user)
 
     @allure.title('Регистрация пользователя с email {email} и паролем {password}')
-    @pytest.mark.parametrize('email, password', [(random_email(), random_string(8, 10)), (random_email(), None), (None, random_string(8, 10)), (None, None)])
+    @pytest.mark.parametrize('email, password', [("eve.holt@reqres.in", random_string(8, 10)), (random_email(), None), (None, random_string(8, 10)), (None, None)])
     def test_register_user_with_api(self, users_api, email: str, password: str):
 
         with allure.step("Отправка POST-запроса для регистрации пользователя"):
@@ -67,7 +67,7 @@ class TestUsersAPI:
             users_api.should_be_valid_response_status_and_body_from_request_register_user(register_user, email, password)
 
     @allure.title('Авторизация пользователя с email {email} и паролем {password}')
-    @pytest.mark.parametrize('email, password', [(random_email(), random_string(8, 10)), (random_email(), None), (None, random_string(8, 10)), (None, None)])
+    @pytest.mark.parametrize('email, password', [("eve.holt@reqres.in", random_string(8, 10)), (random_email(), None), (None, random_string(8, 10)), (None, None)])
     def test_login_user_with_api(self, users_api, api_reqres, email, password):
 
         with allure.step("Отправка POST-запроса для авторизации пользователя"):
