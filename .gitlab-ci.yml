@@ -1,0 +1,72 @@
+stages:
+  - run-tests
+  - create_history
+  - reports
+  - deploy
+
+#--------RUN TESTS--------#
+
+run-tests:
+  stage: run-tests
+  image: python:3.10.0-alpine
+  tags:
+    - docker
+  before_script:
+    - pip install -r requirements.txt
+    - apk add gcc xvfb chromium chromium-chromedriver firefox-esr curl
+    - curl -L https://github.com/mozilla/geckodriver/releases/download/v0.32.2/geckodriver-v0.32.2-linux64.tar.gz | tar xz -C /usr/local/bin
+  script:
+    - pytest --browser=chrome --alluredir=./allure-results tests/
+  allow_failure: true
+  artifacts:
+    when: always
+    paths:
+      - ./allure-results
+    expire_in: 1 day
+
+history_job:
+  stage: create_history
+  tags:
+    - docker
+  image: storytel/alpine-bash-curl
+  script:
+    - 'curl --location --output artifacts.zip --header "PRIVATE-TOKEN: glpat-gzNwU9nKsuHnGzbxwpTQ" "https://gitlab.com/api/v4/projects/45755689/jobs/artifacts/main/download?job=pages"'
+    - apk add unzip
+    - unzip artifacts.zip
+    - chmod -R 777 public
+    - cp -r ./public/history ./allure-results
+  allow_failure: true
+  artifacts:
+    paths:
+      - ./allure-results
+    expire_in: 1 day
+  rules:
+    - when: always
+
+
+create-report:
+  stage: reports
+  tags:
+    - docker
+  image: frankescobar/allure-docker-service
+  script:
+    - allure generate -c ./allure-results -o ./allure-report
+  artifacts:
+    paths:
+      - ./allure-results
+      - ./allure-report
+    expire_in: 1 day
+  rules:
+    - when: always
+
+pages:
+  stage: deploy
+  script:
+    - mkdir public
+    - mv ./allure-report/* public
+
+  artifacts:
+    paths:
+      - public
+  rules:
+    - when: always

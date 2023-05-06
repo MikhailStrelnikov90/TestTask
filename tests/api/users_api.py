@@ -14,7 +14,7 @@ class UsersAPI:
         self.api_reqres = api_reqres
 
     def list_users(self, page: int) -> ResponseModel:
-        response = self.api_reqres.get_request(f"{APIRoutes.LIST_USERS}{page}")
+        response = self.api_reqres.get_request(APIRoutes.LIST_USERS, params={'page': page})
         return ResponseModel(status=response.status_code, response=response.json())
 
     def single_users(self, user_id: int) -> ResponseModel:
@@ -57,7 +57,7 @@ class UsersAPI:
         return ResponseModel(status=response.status_code, response=response.json())
 
     def delayed_response(self, delay: int) -> ResponseModel:
-        response = self.api_reqres.get_request(f"{APIRoutes.DELAYED}{delay}")
+        response = self.api_reqres.get_request(APIRoutes.DELAYED, params={'delay': delay})
         return ResponseModel(status=response.status_code, response=response.json())
 
     @staticmethod

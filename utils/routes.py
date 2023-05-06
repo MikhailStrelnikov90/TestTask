@@ -2,7 +2,7 @@ from enum import Enum
 
 
 class APIRoutes(str, Enum):
-    LIST_USERS = 'api/users?page='
+    LIST_USERS = 'api/users'
     SINGLE_USER = 'api/users/'
     LIST_RESOURCE = 'api/unknown'
     SINGLE_RESOURCE = 'api/unknown/'
@@ -10,7 +10,7 @@ class APIRoutes(str, Enum):
     EDIT_USER = 'api/users/'
     REGISTER = 'api/register'
     LOGIN = 'api/login'
-    DELAYED = 'api/users?delay='
+    DELAYED = 'api/users'
 
     def __str__(self) -> str:
         return self.value

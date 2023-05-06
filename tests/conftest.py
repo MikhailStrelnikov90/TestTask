@@ -13,6 +13,11 @@ import allure
 from .pages.main_page import MainPage
 from .api.users_api import UsersAPI
 from .api.resourse_api import ResourceAPI
+from pyvirtualdisplay import Display
+
+if os.environ.get("ENVIRONMENT") != 'local':
+    display = Display(visible=False, size=(1920, 1080))
+    display.start()
 
 
 def pytest_addoption(parser) -> NoReturn:
@@ -45,7 +50,17 @@ def browser(request):
 
     if browser_name == "chrome":
         print("\nstart chrome browser for test..")
-        browser = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+        options = Options()
+        if os.environ.get("ENVIRONMENT") != 'local':
+            options.add_argument("start-maximized")
+            options.add_argument("disable-infobars")
+            options.add_argument("--disable-extensions")
+            options.add_argument("--disable-gpu")
+            options.add_argument("--disable-dev-shm-usage")
+            options.add_argument("--no-sandbox")
+            browser = webdriver.Chrome(options=options)
+        else:
+            browser = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
         browser.maximize_window()
     elif browser_name == "firefox":
         print("\nstart firefox browser for test..")
@@ -60,9 +75,6 @@ def browser(request):
     yield browser
     print("\nquit browser..")
     browser.quit()
-
-    if os.path.exists(os.getcwd() + '/geckodriver.log'):
-        os.remove(os.getcwd() + '/geckodriver.log')
 
 
 class ApiClient:
