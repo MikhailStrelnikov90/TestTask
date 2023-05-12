@@ -58,7 +58,7 @@ class TestUsersAPI:
 
     @allure.title('Регистрация пользователя с email {email} и паролем {password}')
     @pytest.mark.parametrize('email, password', [("eve.holt@reqres.in", random_string(8, 10)), (random_email(), None), (None, random_string(8, 10)), (None, None)])
-    def test_register_user_with_api(self, users_api, email: str, password: str):
+    def test_register_user_with_api(self, users_api, email: str | None, password: str | None):
 
         with allure.step("Отправка POST-запроса для регистрации пользователя"):
             register_user = users_api.register_user(email, password)
@@ -68,7 +68,7 @@ class TestUsersAPI:
 
     @allure.title('Авторизация пользователя с email {email} и паролем {password}')
     @pytest.mark.parametrize('email, password', [("eve.holt@reqres.in", random_string(8, 10)), (random_email(), None), (None, random_string(8, 10)), (None, None)])
-    def test_login_user_with_api(self, users_api, api_reqres, email, password):
+    def test_login_user_with_api(self, users_api, email: str | None, password: str | None):
 
         with allure.step("Отправка POST-запроса для авторизации пользователя"):
             login_user = users_api.login_user(email, password)
@@ -78,7 +78,7 @@ class TestUsersAPI:
 
     @pytest.mark.parametrize('delay', [random_number(5, 10)])
     @allure.title('Получение списка пользователей с задержкой {delay}')
-    def test_delayed_response_with_api(self, users_api, api_reqres, delay: int):
+    def test_delayed_response_with_api(self, users_api, delay: int):
 
         with allure.step(f"Отправка GET-запроса для получения списка пользователей с задержкой {delay}"):
             get_list_users_with_delay = users_api.delayed_response(delay)

@@ -10,10 +10,10 @@ from webdriver_manager.firefox import GeckoDriverManager
 from typing import NoReturn
 import os
 import allure
+from pyvirtualdisplay import Display
 from .pages.main_page import MainPage
 from .api.users_api import UsersAPI
 from .api.resourse_api import ResourceAPI
-from pyvirtualdisplay import Display
 
 if os.environ.get("ENVIRONMENT") != 'local':
     display = Display(visible=False, size=(1920, 1080))

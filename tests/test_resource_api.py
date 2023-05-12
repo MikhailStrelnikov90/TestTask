@@ -17,7 +17,7 @@ class TestResourceAPI:
 
     @allure.title('Получение ресурса с id {resource_id}')
     @pytest.mark.parametrize('resource_id', [random_number(1, 12), random_number(13, 100)])
-    def test_get_single_resource_with_api(self, resource_api, resource_id):
+    def test_get_single_resource_with_api(self, resource_api, resource_id: int):
 
         with allure.step(f"Отправка GET-запроса для получения ресурса с id {resource_id}"):
             single_resource = resource_api.single_resource(resource_id)

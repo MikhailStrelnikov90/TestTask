@@ -23,4 +23,5 @@ aiogram==2.25.1
 Faker==18.6.0
 pydantic==1.10.7
 jsonschema==4.17.3
+webdriver-manager==3.8.6
 PyVirtualDisplay==3.0

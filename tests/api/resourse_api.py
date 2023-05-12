@@ -24,7 +24,7 @@ class ResourceAPI:
         validate(list_resource.response, DefaultListResource.schema())
 
     @staticmethod
-    def should_be_valid_response_status_and_body_from_request_single_resource(single_resource, resource_id) -> NoReturn:
+    def should_be_valid_response_status_and_body_from_request_single_resource(single_resource, resource_id: int) -> NoReturn:
         if resource_id <= 12:
             assert single_resource.status == 200
             validate(single_resource.response, DefaultSingleResource.schema())

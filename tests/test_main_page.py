@@ -20,7 +20,7 @@ class TestMainPage:
 
     @pytest.mark.parametrize('request_name, resource_id', [('list_resource', None), ('single_resource', 2), ('single_resource_not_found', 23)])
     @allure.title('Get {request_name}')
-    def test_get_resource(self, browser, main_page, api_reqres, request_name: str, resource_id: int):
+    def test_get_resource(self, browser, main_page, api_reqres, request_name: str, resource_id: int | None):
 
         with allure.step("Открытие браузера и страницы сайта"):
             main_page.open()
@@ -33,7 +33,7 @@ class TestMainPage:
 
     @pytest.mark.parametrize('request_name, name, job, user_id', [('Create user', "morpheus", "leader", None), ('Update (PUT) user', "morpheus", "zion resident", 2), ('Update (PATCH) user', "morpheus", "zion resident", 2), ('Delete user', None, None, 2)])
     @allure.title('{request_name}')
-    def test_edit_user(self, browser, main_page, api_reqres, request_name: str, name: str, job: str, user_id: int):
+    def test_edit_user(self, browser, main_page, api_reqres, request_name: str, name: str | None, job: str | None, user_id: int):
 
         with allure.step("Открытие браузера и страницы сайта"):
             main_page.open()
@@ -46,7 +46,7 @@ class TestMainPage:
 
     @pytest.mark.parametrize('request_name, email, password', [('Register successful', "eve.holt@reqres.in", "pistol"), ('Register unsuccessful', "sydney@fife", None)])
     @allure.title('{request_name}')
-    def test_register(self, browser, main_page, api_reqres, request_name: str, email: str, password: str):
+    def test_register(self, browser, main_page, api_reqres, request_name: str, email: str, password: str | None):
 
         with allure.step("Открытие браузера и страницы сайта"):
             main_page.open()
@@ -59,7 +59,7 @@ class TestMainPage:
 
     @pytest.mark.parametrize('request_name, email, password', [('Login successful', "eve.holt@reqres.in", "cityslicka"), ('Login unsuccessful', "peter@klaven", None)])
     @allure.title('{request_name}')
-    def test_login(self, browser, main_page, api_reqres, request_name: str, email: str, password: str):
+    def test_login(self, browser, main_page, api_reqres, request_name: str, email: str, password: str | None):
 
         with allure.step("Открытие браузера и страницы сайта"):
             main_page.open()
